@@ -13,7 +13,7 @@ const RegisterScreen = ({navigation}) => {
   const register = () => {
     auth.createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
-        // Signed in 
+        // Signed in 696
         var user = userCredential.user;
         // const user = firebase.auth().currentUser;
 
