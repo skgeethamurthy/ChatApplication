@@ -1,6 +1,6 @@
-import * as firebase from 'firebase';
-import 'firebase/auth'
-import  'firebase/firestore'
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth'
+import 'firebase/compat/firestore'
 var firebaseConfig = {
     apiKey: "AIzaSyCPVyjG-KZjKwKYsIyhl8ki-7dmIfb4pS0",
     authDomain: "gifted-chat-b21f2.firebaseapp.com",

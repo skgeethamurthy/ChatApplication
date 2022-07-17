@@ -2,14 +2,39 @@ import React, { useState } from 'react'
 import { View, StyleSheet } from 'react-native'
 import { Input } from "@rneui/themed";
 import { Button } from "@rneui/themed";
+import { auth } from '../firebase';
 
-const RegisterScreen = () => {
-  const { email, setemail } = useState('');
-  const { name, setName } = useState('');
-  const { password, setPassword } = useState('');
-  const { imageURL, setImageUrl } = useState('');
+const RegisterScreen = ({navigation}) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [imageURL, setImageUrl] = useState('');
+
   const register = () => {
-    
+    auth.createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        // Signed in 
+        var user = userCredential.user;
+        // const user = firebase.auth().currentUser;
+
+        user.updateProfile({
+          displayName: name,
+          photoURL: imageURL ? imageURL : "https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG.png"
+        }).then(() => {
+          // Update successful
+          // ...
+        }).catch((error) => {
+          // An error occurred
+          // ...
+        });
+        // ...
+        navigation.popToTop();
+      })
+      .catch((error) => {
+        var errorMessage = error.message;
+        alert(errorMessage)
+        // ..
+      });
   }
   return (
     <View style={styles.container}>
@@ -17,7 +42,7 @@ const RegisterScreen = () => {
         placeholder="Enter Name"
         label="Name"
         leftIcon={{ type: 'material', name: 'badge' }}
-        value={email}
+        value={name}
         onChangeText={text => setName(text)}
       />
       <Input
@@ -42,7 +67,7 @@ const RegisterScreen = () => {
         value={imageURL}
         onChangeText={text => setImageUrl(text)}
       />
-      <Button title="sign up" style={styles.button} />
+      <Button title="sign up" onPress={register} style={styles.button} />
     </View>
   )
 }
